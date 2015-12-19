@@ -11,7 +11,15 @@ int i
 
 genMD5 = ""
 while (!genMD5.startsWith("00000")) {
-    println("$input $i")
-    genMD5 = generateMD5("$input$i")
     i++
+    genMD5 = generateMD5("$input$i")
 }
+println("$input $i $genMD5")
+println "======="
+
+while (!genMD5.startsWith("000000")) {
+    i++
+    genMD5 = generateMD5("$input$i")
+}
+
+println("$input $i $genMD5")
