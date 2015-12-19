@@ -1000,16 +1000,26 @@ def input =
                 "21x2x22\n" +
                 "14x12x8"
 
-println boxSurface("1x1x10")
-println boxSurface("2x3x4")
+println "Surface: " + boxSurface("2x3x4")
+println "Ribbon: " + ribbon("2x3x4")
+
+println "Surface: " + boxSurface("1x1x10")
+println "Ribbon: " + ribbon("1x1x10")
 
 def boxes = input.split("\n")
 
 int surface = 0
+int ribbonSize = 0
 boxes.each { box ->
     surface += boxSurface(box)
 }
+
+boxes.each { box ->
+    ribbonSize += ribbon(box)
+}
+
 println "Surface: $surface"
+println "Ribbon: $ribbonSize"
 
 int boxSurface(String box) {
     ArrayList<Integer> sides = box.split("x")*.toInteger()
@@ -1018,4 +1028,14 @@ int boxSurface(String box) {
     surface[1] = sides[1] * sides[2]
     surface[2] = sides[0] * sides[2]
     surface[0] * 2 + surface[1] * 2 + surface[2] * 2 + surface.min()
+}
+
+int ribbon(String box) {
+    ArrayList<Integer> sides = box.split("x")*.toInteger()
+
+    Integer bow = sides[0] * sides[1] * sides[2]
+    Integer max = sides.max()
+
+    sides.removeElement(max)
+    sides.sum() * 2 + bow
 }
