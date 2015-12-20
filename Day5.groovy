@@ -1007,7 +1007,14 @@ assert false == nice("jchzalrnumimnmhp")
 assert false == nice("haegwjzuvuyypxyu")
 assert false == nice("dvszwmarrgswjxmb")
 
-println input.readLines().grep { nice(it) }.size()
+
+assert true == nicer("qjhvhtzxzqqjkmpb")
+assert true == nicer("xxyxx")
+assert false == nicer("uurcxstgmygtbstg")
+assert false == nicer("ieodomkazucvgmuy")
+
+// println input.readLines().grep { nice(it) }.size()
+println input.readLines().grep { nicer(it) }.size()
 
 def nice(String input) {
     if (input.contains("ab") || input.contains("cd") || input.contains("pq") || input.contains("xy")) {
@@ -1029,4 +1036,31 @@ def nice(String input) {
         }
     }
     twice && countVowels >= 3
+}
+
+def nicer(String input) {
+    char previousChar
+    char prePreviousChar
+    repeats = false
+    hasPair = false
+
+    previousPairs = []
+    for (int i = 0; i < input.length(); i++) {
+        char currentChar = input.charAt(i);
+        if (previousChar && previousPairs.contains("$previousChar$currentChar")) {
+            hasPair = true
+        }
+
+        if (currentChar.equals(prePreviousChar)) {
+            repeats = true
+        }
+        if (prePreviousChar && previousChar) {//Groovy  Truth an empty char is considered as false ;)
+            previousPairs.add("$prePreviousChar$previousChar")
+        }
+
+        prePreviousChar = previousChar
+        previousChar = currentChar
+
+    }
+    hasPair && repeats
 }
